@@ -1,11 +1,4 @@
-/**
- * Us used by: User, ...
- * https://www.igniterealtime.org/projects/openfire/plugins/1.3.10/restAPI/readme.html#system-property
- */
-export type Property = {
-    key: string,
-    value: string,
-}
+
 
 
 
@@ -29,7 +22,7 @@ export type User = {
     /**
      * List of properties. Property is a key / value object. The key must to be per user unique
      */
-    properties?: Property[]
+    properties?: SystemProperty[]
 };
 
 /**
@@ -110,47 +103,47 @@ export type Chatroom = {
      */
     maxUsers?: number,
     /**
-     * Can be “true” or “false”. Persistent rooms are saved to the database to make their configurations persistent together with the affiliation of the users. Otherwise the room will be destroyed if the last occupant leave the room.
+     * Can be "true" or "false". Persistent rooms are saved to the database to make their configurations persistent together with the affiliation of the users. Otherwise the room will be destroyed if the last occupant leave the room.
      */
     persistent?: boolean,
     /**
-     * Can be “true” or “false”. True if the room is searchable and visible through service discovery.
+     * Can be "true" or "false". True if the room is searchable and visible through service discovery.
      */
     publicRoom?: boolean,
     /**
-     * Can be “true” or “false”. True if users are allowed to register with the room. By default, room registration is enabled.
+     * Can be "true" or "false". True if users are allowed to register with the room. By default, room registration is enabled.
      */
     registrationEnabled?: boolean,
     /**
-     * Can be “true” or “false”. True if every presence packet will include the JID of every occupant.
+     * Can be "true" or "false". True if every presence packet will include the JID of every occupant.
      */
     canAnyoneDiscoverJID?: boolean,
     /**
-     * Can be “true” or “false”. True if participants are allowed to change the room’s subject.
+     * Can be "true" or "false". True if participants are allowed to change the room’s subject.
      */
     canOccupantsChangeSubject?: boolean,
     /**
-     * Can be “true” or “false”. True if occupants can invite other users to the room. If the room does not require an invitation to enter (i.e. is not members-only) then any occupant can send invitations. On the other hand, if the room is members-only and occupants cannot send invitation then only the room owners and admins are allowed to send invitations.
+     * Can be "true" or "false". True if occupants can invite other users to the room. If the room does not require an invitation to enter (i.e. is not members-only) then any occupant can send invitations. On the other hand, if the room is members-only and occupants cannot send invitation then only the room owners and admins are allowed to send invitations.
      */
     canOccupantsInvite?: boolean,
     /**
-     *  	Can be “true” or “false”. True if room occupants are allowed to change their nicknames in the room. By default, occupants are allowed to change their nicknames.
+     *  	Can be "true" or "false". True if room occupants are allowed to change their nicknames in the room. By default, occupants are allowed to change their nicknames.
      */
     canChangeNickname?: boolean,
     /**
-     * Can be “true” or “false”. True if the room’s conversation is being logged. If logging is activated the room conversation will be saved to the database every couple of minutes. The saving frequency is the same for all the rooms and can be configured by changing the property “xmpp.muc.tasks.log.timeout”.
+     * Can be "true" or "false". True if the room’s conversation is being logged. If logging is activated the room conversation will be saved to the database every couple of minutes. The saving frequency is the same for all the rooms and can be configured by changing the property "xmpp.muc.tasks.log.timeout".
      */
     logEnabled?: boolean,
     /**
-     * Can be “true” or “false”. True if registered users can only join the room using their registered nickname. By default, registered users can join the room using any nickname.
+     * Can be "true" or "false". True if registered users can only join the room using their registered nickname. By default, registered users can join the room using any nickname.
      */
     loginRestrictedToNickname?: boolean,
     /**
-     * Can be “true” or “false”. True if the room requires an invitation to enter. That is if the room is members-only.
+     * Can be "true" or "false". True if the room requires an invitation to enter. That is if the room is members-only.
      */
     membersOnly?: boolean,
     /**
-     * Can be “true” or “false”. True if the room in which only those with “voice” may send messages to all occupants.
+     * Can be "true" or "false". True if the room in which only those with "voice" may send messages to all occupants.
      */
     moderated?: boolean,
     /**
@@ -219,4 +212,137 @@ export type Group = {
      * A collection with current members of the group
      */
     members?: string
+}
+
+/**
+ * Us used by: User, ...
+ * https://www.igniterealtime.org/projects/openfire/plugins/1.3.10/restAPI/readme.html#system-property
+ */
+ export type SystemProperty = {
+    key: string,
+    value: string,
+}
+
+export type Session = {
+    /**
+     * Full JID of a user e.g. (testUser@testserver.de/SomeRessource)
+     */
+    sessionId: string,
+    /**
+     *  The username associated with this session. Can be also “Anonymous”.
+     */
+    username: string,
+    /**
+     * Resource name
+     */
+    resource?: string,
+    /**
+     * Can be “Local” or “Remote”
+     */
+    node: "Local"|"Remote",
+    /**
+     * The current status of this session. Can be “Closed”, “Connected”, “Authenticated” or “Unknown”.
+     */
+    sessionStatus: "Closed"|"Connected"|"Authenticated"|"Unknown",
+    /**
+     * The status of this presence packet, a natural-language description of availability status.
+     */
+    presenceStatus: string,
+    /**
+     * The priority of the session. The valid priority range is -128 through 128.
+     */
+    priority: number,
+    /**
+     * The IP address string in textual presentation.
+     */
+    hostAddress: string,
+    /**
+     * The host name for this IP address.
+     */
+    hostName: string,
+    /**
+     * The date the session was created.
+     */
+    creationDate: string,
+    /**
+     * The time the session last had activity.
+     */
+    lastActionDate: string,
+    /**
+     *  Is “true” if this connection is secure.
+     */
+    secure:boolean
+}
+
+export type SessionsCount = {
+    /**
+     * Number of client sessions that are authenticated with the server. This includes anonymous and non-anoymous users from the whole cluster.
+     */
+    clusterSessions: number,
+    /**
+     * Number of client sessions that are authenticated with the server. This includes anonymous and non-anoymous users.
+     */
+    localSessions: number
+}
+
+export type SecurityAuditLogs = {
+    /**
+     * Unique ID of this log
+     */
+    logId: number
+    /**
+     * The username of the user who performed this event
+     */
+    username: string,
+    /**
+     * The time stamp of when this event occurred
+     */
+    timestamp: number,
+    /**
+     * The summary, or short description of what transpired in the event
+     */
+    summary: string,
+    /**
+     * The node that triggered the event, usually a hostname or IP address
+     */
+    node: string,
+    /**
+     * Detailed information about what occurred in the event
+     */
+    details: string
+}
+
+export type Occupants = {
+    /**
+     * The JID of the MUC room
+     */
+    jid: string,
+    /**
+     * The JID of the user
+     */
+    userAddress: string,
+    /**
+     * Role of the user
+     */
+    role: string,
+    /**
+     * Affiliation of the user
+     */
+    affiliation: string,
+}
+
+
+
+
+export interface IProcessEnv {
+    OPENFIRE_REST_USERAGENT?: string
+    OPENFIRE_REST_BASE_URL: string
+    OPENFIRE_REST_SECRET_KEY: string
+    OPENFIRE_REST_IGNORE_SSL_ERRORS?: string
+}
+
+declare global {
+    namespace NodeJS {
+        interface ProcessEnv extends IProcessEnv { }
+    }
 }
