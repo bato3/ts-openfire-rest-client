@@ -1,5 +1,6 @@
 import client from './restClient'
-import {IRequestOptions, IRestResponse} from 'typed-rest-client/RestClient';
+import {OptionsOfJSONResponseBody} from 'got'
+
 import { User } from './definitions';
 
 export type TUserSearchParams = {
@@ -11,16 +12,23 @@ export type TUserSearchParams = {
     propertyValue: string
 } | undefined;
 
-export async function users(searchParams:TUserSearchParams  = undefined):Promise<IRestResponse<any>> {
-    let options: IRequestOptions = {
-        queryParameters: {
-            params: searchParams || {}
-        }
+type TUsersResponse = {
+    users: User[]
+}
+
+
+
+export async function users(searchParams:TUserSearchParams  = undefined):Promise<any> {
+    let options: OptionsOfJSONResponseBody = {
+        searchParams
     }
-    return await client().get('users', options);
+    return (await client().get<TUsersResponse>('users', options)).body.users;
 
 }
 
-export async function user(name: string) {
-    return await client().get(`users/${name}`);
+export async function user(name: string): Promise<User> {
+    const resp = await client().get<User>(`users/${name}`);
+
+    console.log(resp.headers, typeof resp.body);
+    return resp.body
 }
