@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "tsc": "tsc",
-    "start": "tsc-watch --onSuccess \"node ./lib/test.js\"",
+    "start": "tsc-watch --onSuccess \"node ./lib/test.js\""
   },
   "repository": {
     "type": "git",
