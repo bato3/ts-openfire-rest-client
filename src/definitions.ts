@@ -16,7 +16,7 @@ export type User = {
      */
     email?: string,
     /**
-     * The password of the user
+     * The password of the user, `null` if unchanged
      */
     password: string,
     /**
@@ -24,6 +24,16 @@ export type User = {
      */
     properties?: SystemProperty[]
 };
+
+export type TUserSearchParams = {
+    search?: string,
+    propertyKey?: string,
+} | {
+    search?: string,
+    propertyKey: string,
+    propertyValue: string
+} | undefined;
+
 
 /**
  * The subscription type
